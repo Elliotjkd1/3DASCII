@@ -1,4 +1,5 @@
 import math
+import colorsys
 
 import pygame
 
@@ -10,6 +11,7 @@ pygame.init()
 
 white = (255, 255, 255)
 black = (0, 0, 0)
+hue = 0
 
 WIDTH = 1920
 HEIGHT = 1080
@@ -41,9 +43,22 @@ pygame.display.set_caption("Donut")
 font = pygame.font.SysFont("Arial", 18, bold=True)
 
 
+# color text_display
+
+def hsv2rgb(h, s, v):
+    return tuple(round(i * 225) for i in colorsys.hsv_to_rgb(h, s, v))
+
+
 def text_display(letter, x_start, y_start):
-    text = font.render(str(letter), True, white)
+    text = font.render(str(letter), True, hsv2rgb(hue, 1, 1))
     display_surface.blit(text, (x_start, y_start))
+
+
+# black and white text_display
+
+# def text_display(letter, x_start, y_start):
+# text = font.render(str(letter), True, white)
+# display_surface.blit(text, (x_start, y_start))
 
 
 run = True
@@ -90,8 +105,9 @@ while run:
             text_display(b[i], x_start, y_start)
             x_start += x_seperator
 
-
     pygame.display.update()
+
+    hue += 0.005
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
